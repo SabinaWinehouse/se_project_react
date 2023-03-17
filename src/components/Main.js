@@ -1,33 +1,53 @@
 import ProfilePic from "../images/profile_pic.jpg";
-export default function Main() {
+import {api} from "../utils/api.js"
+import React from "react";
+export default function Main(props) {
 
-  function handleEditAvatarClick(){
 
-  }
-  function handleEditProfileClick(){
+  const [userName, setUserName] =
+    React.useState("Jacques Cousteau");
+    
+    const [userDescription, setUserDescription] =
+    React.useState("Explorer");
 
-  }
-  function handleAddPlaceClick(){
-
-  }
-
+    const [userAvatar, setUserAvatar] =
+    React.useState(ProfilePic);
+    
+    React.useEffect(()=>{
+      api.getUserInfo()
+      .then((res)=>{
+         setUserName(res.name)
+         setUserDescription(res.about)
+         setUserAvatar(res.avatar)
+        });
+    }, [])
+   
   return (
     <main>
       <section className="profile">
         <div className="profile__container">
-          <img src={ProfilePic} alt="profile" className="profile__picture" />
-          <button className="profile__edit-avatar" type="button"></button>
+          <img src={userAvatar} alt="profile" className="profile__picture" />
+          <button
+            className="profile__edit-avatar"
+            type="button"
+            onClick={props.handleEditAvatarPopupClick}
+          ></button>
         </div>
         <div className="profile__name-edit">
-          <h1 className="profile__name">Jacques Cousteau</h1>
-          <button type="button" className="profile__button-edit"></button>
+          <h1 className="profile__name">{userName}</h1>
+          <button
+            type="button"
+            className="profile__button-edit"
+            onClick={props.handleEditPopupClick}
+          ></button>
         </div>
-        <p className="profile__subtitle">Explorer</p>
+        <p className="profile__subtitle">{userDescription}</p>
 
         <button
           type="button"
           className="profile__button-add"
           id="addButton"
+          onClick={props.handleAddPopupClick}
         ></button>
       </section>
 
