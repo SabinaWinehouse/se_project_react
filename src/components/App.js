@@ -7,6 +7,13 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 function App() {
+  const [selectedCard, setSelectedCard] = React.useState({
+    name: "",
+    link: "",
+  });
+
+  const [isCardPopupOpen, setIsCardPopupOpen] = React.useState(false);
+
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
 
@@ -24,12 +31,17 @@ function App() {
   function handleEditAvatarPopupClick() {
     setIsEditAvatarPopupOpen(true);
   }
+  function handleCardClick(card) {
+    setSelectedCard({ name: card.name, link: card.link });
+    setIsCardPopupOpen(true);
+  }
 
   function closeAllPopups() {
+    setSelectedCard({ name: "", link: "" });
     setIsEditProfilePopupOpen(false);
     seIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-
+    setIsCardPopupOpen(false);
   }
 
   return (
@@ -40,6 +52,7 @@ function App() {
           handleEditPopupClick={handleEditPopupClick}
           handleAddPopupClick={handleAddPopupClick}
           handleEditAvatarPopupClick={handleEditAvatarPopupClick}
+          handleCardClick={handleCardClick}
         />
         <Footer />
       </div>
@@ -48,7 +61,7 @@ function App() {
         name="section-edit"
         title="Edit Profile"
         isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups} 
+        onClose={closeAllPopups}
       >
         <form name="popup_profile" className="popup__form" id="editProfileForm">
           <input
@@ -80,7 +93,7 @@ function App() {
         name="section-add"
         title="New Place"
         isOpen={isAddPlacePopupOpen}
-        onClose={closeAllPopups} 
+        onClose={closeAllPopups}
       >
         <form name="popup_place" className="popup__form" id="createCardForm">
           <input
@@ -118,7 +131,7 @@ function App() {
         name="edit-avatar"
         title="Edit Avatar"
         isOpen={isEditAvatarPopupOpen}
-        onClose={closeAllPopups} 
+        onClose={closeAllPopups}
       >
         <form name="popup_profile" className="popup__form" id="editProfileForm">
           <input
@@ -173,7 +186,11 @@ function App() {
         </div>
       </div>
 
-      <ImagePopup />
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+        isOpen={isCardPopupOpen}
+      />
     </div>
   );
 }

@@ -1,27 +1,28 @@
 import ProfilePic from "../images/profile_pic.jpg";
-import {api} from "../utils/api.js"
+import { api } from "../utils/api.js";
 import React from "react";
+import Card from "./Card.js";
+
 export default function Main(props) {
+  const [cards, setCards] = React.useState([]);
 
+  const [userName, setUserName] = React.useState("Jacques Cousteau");
 
-  const [userName, setUserName] =
-    React.useState("Jacques Cousteau");
-    
-    const [userDescription, setUserDescription] =
-    React.useState("Explorer");
+  const [userDescription, setUserDescription] = React.useState("Explorer");
 
-    const [userAvatar, setUserAvatar] =
-    React.useState(ProfilePic);
-    
-    React.useEffect(()=>{
-      api.getUserInfo()
-      .then((res)=>{
-         setUserName(res.name)
-         setUserDescription(res.about)
-         setUserAvatar(res.avatar)
-        });
-    }, [])
-   
+  const [userAvatar, setUserAvatar] = React.useState(ProfilePic);
+
+  React.useEffect(() => {
+    api.getUserInfo().then((res) => {
+      setUserName(res.name);
+      setUserDescription(res.about);
+      setUserAvatar(res.avatar);
+    });
+    api.getInitialCards().then((res) => {
+      setCards(res);
+    });
+  }, []);
+
   return (
     <main>
       <section className="profile">
@@ -52,7 +53,15 @@ export default function Main(props) {
       </section>
 
       <div className="gallery">
-        <ul className="gallery__list"></ul>
+        <ul className="gallery__list">
+          {cards.map((card) => (
+            <Card
+              card={card}
+              key={card._id}
+              onCardClick={props.handleCardClick}
+            />
+          ))}
+        </ul>
       </div>
     </main>
   );
