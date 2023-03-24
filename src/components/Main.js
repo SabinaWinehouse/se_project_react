@@ -1,4 +1,4 @@
-import ProfilePic from "../images/profile_pic.jpg";
+import profilePic from "../images/profile_pic.jpg";
 import { api } from "../utils/api.js";
 import React from "react";
 import Card from "./Card.js";
@@ -10,17 +10,19 @@ export default function Main(props) {
 
   const [userDescription, setUserDescription] = React.useState("Explorer");
 
-  const [userAvatar, setUserAvatar] = React.useState(ProfilePic);
+  const [userAvatar, setUserAvatar] = React.useState(profilePic);
 
   React.useEffect(() => {
     api.getUserInfo().then((res) => {
       setUserName(res.name);
       setUserDescription(res.about);
       setUserAvatar(res.avatar);
-    });
+    })
+    .catch((error) => console.error(error))
     api.getInitialCards().then((res) => {
       setCards(res);
-    });
+    })
+    .catch((error) => console.error(error))
   }, []);
 
   return (

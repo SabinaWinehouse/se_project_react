@@ -62,31 +62,30 @@ function App() {
         title="Edit Profile"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
+        formId="editProfileForm"
       >
-        <form name="popup_profile" className="popup__form" id="editProfileForm">
-          <input
-            className="popup__input popup__form-name"
-            id="name-input"
-            name="name"
-            type="text"
-            placeholder="Name"
-            minLength="2"
-            maxLength="40"
-            required
-          />
-          <span id="name-input-error" className="popup__input-error"></span>
-          <input
-            className="popup__input popup__form-subtitle"
-            id="job-input"
-            name="job"
-            type="text"
-            placeholder="About me"
-            minLength="2"
-            maxLength="200"
-            required
-          />
-          <span id="job-input-error" className="popup__input-error"></span>
-        </form>
+        <input
+          className="popup__input popup__form-name"
+          id="name-input"
+          name="name"
+          type="text"
+          placeholder="Name"
+          minLength="2"
+          maxLength="40"
+          required
+        />
+        <span id="name-input-error" className="popup__input-error"></span>
+        <input
+          className="popup__input popup__form-subtitle"
+          id="job-input"
+          name="job"
+          type="text"
+          placeholder="About me"
+          minLength="2"
+          maxLength="200"
+          required
+        />
+        <span id="job-input-error" className="popup__input-error"></span>
       </PopupWithForm>
 
       <PopupWithForm
@@ -94,37 +93,30 @@ function App() {
         title="New Place"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
+        formId="createCardForm"
       >
-        <form name="popup_place" className="popup__form" id="createCardForm">
-          <input
-            className="popup__input popup__form-title"
-            id="card-name-input"
-            name="name"
-            type="text"
-            placeholder="Title"
-            minLength="1"
-            maxLength="30"
-            required
-          />
+        <input
+          className="popup__input popup__form-title"
+          id="card-name-input"
+          name="name"
+          type="text"
+          placeholder="Title"
+          minLength="1"
+          maxLength="30"
+          required
+        />
 
-          <span
-            id="card-name-input-error"
-            className="popup__input-error"
-          ></span>
-          <input
-            className="popup__input popup__form-link"
-            id="card-link-input"
-            name="link"
-            type="url"
-            placeholder="Image link"
-            required
-          />
+        <span id="card-name-input-error" className="popup__input-error"></span>
+        <input
+          className="popup__input popup__form-link"
+          id="card-link-input"
+          name="link"
+          type="url"
+          placeholder="Image link"
+          required
+        />
 
-          <span
-            id="card-link-input-error"
-            className="popup__input-error"
-          ></span>
-        </form>
+        <span id="card-link-input-error" className="popup__input-error"></span>
       </PopupWithForm>
 
       <PopupWithForm
@@ -132,31 +124,30 @@ function App() {
         title="Edit Avatar"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
+        formId="editProfileForm"
       >
-        <form name="popup_profile" className="popup__form" id="editProfileForm">
-          <input
-            className="popup__input popup__form-name"
-            id="name-input"
-            name="name"
-            type="text"
-            placeholder="Name"
-            minLength="2"
-            maxLength="40"
-            required
-          />
-          <span id="name-input-error" className="popup__input-error"></span>
-          <input
-            className="popup__input popup__form-subtitle"
-            id="job-input"
-            name="job"
-            type="text"
-            placeholder="About me"
-            minLength="2"
-            maxLength="200"
-            required
-          />
-          <span id="job-input-error" className="popup__input-error"></span>
-        </form>
+        <input
+          className="popup__input popup__form-name"
+          id="name-input"
+          name="name"
+          type="text"
+          placeholder="Name"
+          minLength="2"
+          maxLength="40"
+          required
+        />
+        <span id="name-input-error" className="popup__input-error"></span>
+        <input
+          className="popup__input popup__form-subtitle"
+          id="job-input"
+          name="job"
+          type="text"
+          placeholder="About me"
+          minLength="2"
+          maxLength="200"
+          required
+        />
+        <span id="job-input-error" className="popup__input-error"></span>
       </PopupWithForm>
 
       <div className="popup" id="popup__delete-card">
