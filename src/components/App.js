@@ -5,8 +5,12 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
+import { api } from "../utils/api.js";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function App() {
+  const [currentUser, setCurrentUser] = React.useState({});
+
   const [selectedCard, setSelectedCard] = React.useState({
     name: "",
     link: "",
@@ -44,7 +48,17 @@ function App() {
     setIsCardPopupOpen(false);
   }
 
+  React.useEffect(() => {
+    api.getUserInfo().then((res) => {
+      setCurrentUser(res);
+      
+    })
+    .catch((error) => console.error(error))
+  }, []);
+  
+
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <div className="page__content">
         <Header />
@@ -183,6 +197,7 @@ function App() {
         isOpen={isCardPopupOpen}
       />
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 

@@ -2,34 +2,32 @@ import profilePic from "../images/profile_pic.jpg";
 import { api } from "../utils/api.js";
 import React from "react";
 import Card from "./Card.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 export default function Main(props) {
+  const currentUser = React.useContext(CurrentUserContext);
   const [cards, setCards] = React.useState([]);
-
-  const [userName, setUserName] = React.useState("Jacques Cousteau");
-
-  const [userDescription, setUserDescription] = React.useState("Explorer");
-
-  const [userAvatar, setUserAvatar] = React.useState(profilePic);
-
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(user => user._id === currentUser._id);
+    
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+    });
+}
   React.useEffect(() => {
-    api.getUserInfo().then((res) => {
-      setUserName(res.name);
-      setUserDescription(res.about);
-      setUserAvatar(res.avatar);
-    })
-    .catch((error) => console.error(error))
-    api.getInitialCards().then((res) => {
-      setCards(res);
-    })
-    .catch((error) => console.error(error))
+    api
+      .getInitialCards()
+      .then((res) => {
+        setCards(res);
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (
     <main>
       <section className="profile">
         <div className="profile__container">
-          <img src={userAvatar} alt="profile" className="profile__picture" />
+          <img src={currentUser.avatar} alt="profile" className="profile__picture" />
           <button
             className="profile__edit-avatar"
             type="button"
@@ -37,14 +35,14 @@ export default function Main(props) {
           ></button>
         </div>
         <div className="profile__name-edit">
-          <h1 className="profile__name">{userName}</h1>
+          <h1 className="profile__name">{currentUser.name}</h1>
           <button
             type="button"
             className="profile__button-edit"
             onClick={props.handleEditPopupClick}
           ></button>
         </div>
-        <p className="profile__subtitle">{userDescription}</p>
+        <p className="profile__subtitle">{currentUser.about}</p>
 
         <button
           type="button"
@@ -61,6 +59,7 @@ export default function Main(props) {
               card={card}
               key={card._id}
               onCardClick={props.handleCardClick}
+              onCardLike={handleCardLike}
             />
           ))}
         </ul>
