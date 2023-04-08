@@ -77,6 +77,7 @@ export default function Main(props) {
               key={card._id}
               onCardClick={props.handleCardClick}
               onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
             />
           ))}
         </ul>

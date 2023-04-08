@@ -19,11 +19,14 @@ export default function Card(props) {
   function onCardLike(){
     props.onCardLike(props.card);
   }
-  
+  function onCardDelete(){
+    props.onCardDelete(props.card);
+  }
+
 
   return (
     <li className="card">
-      <button type="button" className={cardDeleteButtonClassName}></button>
+      <button type="button" onClick={onCardDelete} className={cardDeleteButtonClassName}></button>
 
       <img
         src={props.card.link}
