@@ -16,6 +16,11 @@ export default function Card(props) {
   function handleClick() {
     props.onCardClick(props.card);
   }
+  function onCardLike(){
+    props.onCardLike(props.card);
+  }
+  
+
   return (
     <li className="card">
       <button type="button" className={cardDeleteButtonClassName}></button>
@@ -29,7 +34,7 @@ export default function Card(props) {
       <div className="card__description">
         <h2 className="card__title">{props.card.name}</h2>
         <div className="card__like-wrapper">
-          <button type="button" onClick={props.onCardLike} className={cardLikeButtonClassName}></button>
+          <button type="button" onClick={onCardLike} className={cardLikeButtonClassName}></button>
           <span className="class__like-counter">{props.card.likes.length}</span>
         </div>
       </div>

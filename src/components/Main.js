@@ -7,13 +7,26 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 export default function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
   const [cards, setCards] = React.useState([]);
+
   function handleCardLike(card) {
-    const isLiked = card.likes.some(user => user._id === currentUser._id);
-    
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-        setCards((state) => state.map((currentCard) => currentCard._id === card._id ? newCard : currentCard));
+    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+
+    api.changeLikeStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) =>
+        state.map((currentCard) =>
+          currentCard._id === card._id ? newCard : currentCard
+        )
+      );
     });
-}
+  }
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards((state) =>
+        state.filter((currentCard) => 
+        currentCard._id !== card._id)
+      );
+    });
+  }
   React.useEffect(() => {
     api
       .getInitialCards()
@@ -27,7 +40,11 @@ export default function Main(props) {
     <main>
       <section className="profile">
         <div className="profile__container">
-          <img src={currentUser.avatar} alt="profile" className="profile__picture" />
+          <img
+            src={currentUser.avatar}
+            alt="profile"
+            className="profile__picture"
+          />
           <button
             className="profile__edit-avatar"
             type="button"
