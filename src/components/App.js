@@ -7,6 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/api.js";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -48,6 +49,11 @@ function App() {
     setIsCardPopupOpen(false);
   }
 
+  function handleUpdateUser({name, about}){
+   api.editUserInfo({name, about})
+   .then(() => setCurrentUser({name, about}))
+  }
+
   React.useEffect(() => {
     api.getUserInfo().then((res) => {
       setCurrentUser(res);
@@ -71,36 +77,10 @@ function App() {
         <Footer />
       </div>
 
-      <PopupWithForm
-        name="section-edit"
-        title="Edit Profile"
-        isOpen={isEditProfilePopupOpen}
-        onClose={closeAllPopups}
-        formId="editProfileForm"
-      >
-        <input
-          className="popup__input popup__form-name"
-          id="name-input"
-          name="name"
-          type="text"
-          placeholder="Name"
-          minLength="2"
-          maxLength="40"
-          required
-        />
-        <span id="name-input-error" className="popup__input-error"></span>
-        <input
-          className="popup__input popup__form-subtitle"
-          id="job-input"
-          name="job"
-          type="text"
-          placeholder="About me"
-          minLength="2"
-          maxLength="200"
-          required
-        />
-        <span id="job-input-error" className="popup__input-error"></span>
-      </PopupWithForm>
+    <EditProfilePopup
+    isOpen={isEditProfilePopupOpen}
+    onClose={closeAllPopups}
+    onUpdateUser={handleUpdateUser}/>
 
       <PopupWithForm
         name="section-add"
