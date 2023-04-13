@@ -2,8 +2,9 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 export default function Card(props) {
   const currentUser = React.useContext(CurrentUserContext);
-
+  
   const isOwn = props.card.owner._id === currentUser._id;
+
 
   const cardDeleteButtonClassName = `card__delete-button ${
     isOwn ? "card__delete-button_visible" : "card__delete-button_hidden"
