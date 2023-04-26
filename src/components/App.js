@@ -3,7 +3,6 @@ import "../index.css";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -55,22 +54,30 @@ function App() {
   function handleUpdateUser({ name, about }) {
     api
       .editUserInfo({ name, about })
-      .then(() => setCurrentUser({ ...currentUser, name, about }));
+      .then(() => {setCurrentUser({ ...currentUser, name, about })
+      closeAllPopups();})
+      .catch((error) => console.error(error));
   }
   function handleUpdateAvatar({ avatar }) {
-    api.changeUserAvatar({ avatar }).then((res) => setCurrentUser(res));
+    api.changeUserAvatar({ avatar })
+    .then((res) =>
+     {setCurrentUser(res)
+      closeAllPopups();})
+    .catch((error) => console.error(error));
   }
-
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id);
 
-    api.changeLikeStatus(card._id, isLiked).then((newCard) => {
-      setCards((state) =>
-        state.map((currentCard) =>
-          currentCard._id === card._id ? newCard : currentCard
-        )
-      );
-    });
+    api
+      .changeLikeStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((currentCard) =>
+            currentCard._id === card._id ? newCard : currentCard
+          )
+        );
+      })
+      .catch((error) => console.error(error));
   }
   function handleCardDelete(card) {
     api.deleteCard(card._id).then(() => {
@@ -79,10 +86,14 @@ function App() {
       );
     });
   }
+
   function handleAddPlaceSubmit(newCard) {
-    api.addNewCard(newCard).then((res) => {
+    api.addNewCard(newCard)
+    .then((res) => {
       setCards([res, ...cards]);
-    });
+      closeAllPopups();
+    })
+    .catch((error) => console.error(error));
   }
   React.useEffect(() => {
     api
@@ -136,34 +147,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
         />
-
-        <div className="popup" id="popup__delete-card">
-          <div className="popup__container">
-            <button
-              type="button"
-              className="popup__close"
-              id="deleteCardPopupCloseButton"
-            ></button>
-
-            <fieldset className="popup__fieldset">
-              <h3 className="popup__place">Are you sure?</h3>
-              <form
-                name="popup_place"
-                className="popup__form"
-                id="deleteCardForm"
-              >
-                <button
-                  className="popup__button popup__create-card"
-                  name="create_a_card_button"
-                  type="submit"
-                >
-                  Yes
-                </button>
-              </form>
-            </fieldset>
-          </div>
-        </div>
-
+       
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}

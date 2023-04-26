@@ -16,7 +16,7 @@ export default function AddPlacePopup(props) {
       name: placeName,
       link: placeLink,
     });
-    props.onClose();
+   
   }
 
   return (

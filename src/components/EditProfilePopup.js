@@ -23,7 +23,6 @@ export default function EditProfilePopup(props) {
       name: name,
       about: description,
     });
-    props.onClose();
   }
 
   return (
@@ -37,7 +36,7 @@ export default function EditProfilePopup(props) {
     >
       <input
         onChange={handleNameChange}
-        value={name}
+        value={name || ""}
         className="popup__input popup__form-name"
         id="name-input"
         name="name"
@@ -50,7 +49,7 @@ export default function EditProfilePopup(props) {
       <span id="name-input-error" className="popup__input-error"></span>
       <input
         onChange={handleDescriptionChange}
-        value={description}
+        value={description || ""}
         className="popup__input popup__form-subtitle"
         id="job-input"
         name="job"
