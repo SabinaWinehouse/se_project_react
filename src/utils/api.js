@@ -12,14 +12,16 @@ class Api {
     return fetch(this._baseUrl + "/users/me", {
       method: "GET",
       headers: this._headers,
-    }).then(this._handleResponse);
+    }).then(this._handleResponse)
+    .catch((error) => console.error(error));
   }
 
   getInitialCards() {
     return fetch(this._baseUrl + "/cards", {
       method: "GET",
       headers: this._headers,
-    }).then(this._handleResponse);
+    }).then(this._handleResponse)
+    .catch((error) => console.error(error));
   }
 
   editUserInfo({ name, about }) {
@@ -31,14 +33,16 @@ class Api {
         name,
         about,
       }),
-    }).then(this._handleResponse);
+    }).then(this._handleResponse)
+    .catch((error) => console.error(error));
   }
   addNewCard(data) {
     return fetch(this._baseUrl + "/cards", {
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data),
-    }).then(this._handleResponse);
+    }).then(this._handleResponse)
+    .catch((error) => console.error(error));
   }
 
   changeLikeStatus(cardId, isLiked) {
@@ -46,14 +50,16 @@ class Api {
     return fetch(this._baseUrl + "/cards/likes/" + cardId, {
       method: isLiked ? "DELETE" : "PUT",
       headers: this._headers,
-    }).then(this._handleResponse);
+    }).then(this._handleResponse)
+    .catch((error) => console.error(error));
   }
 
   deleteCard(cardId) {
     return fetch(this._baseUrl + "/cards/" + cardId, {
       method: "DELETE",
       headers: this._headers,
-    }).then(this._handleResponse);
+    }).then(this._handleResponse)
+    .catch((error) => console.error(error));
   }
 
   changeUserAvatar({ avatar }) {
@@ -63,7 +69,8 @@ class Api {
       body: JSON.stringify({
         avatar,
       }),
-    }).then(this._handleResponse);
+    }).then(this._handleResponse)
+    .catch((error) => console.error(error));
   }
 }
 export const api = new Api({

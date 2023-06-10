@@ -9,7 +9,7 @@ export default function EditAvatarPopup(props) {
     props.onUpdateAvatar({
       avatar: inputAvatarRef.current.value,
     });
-
+    props.onClose();
   }
   return (
     <PopupWithForm
