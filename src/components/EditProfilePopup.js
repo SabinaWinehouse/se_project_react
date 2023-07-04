@@ -61,6 +61,13 @@ export default function EditProfilePopup(props) {
         required
       />
       <span id="job-input-error" className="popup__input-error"></span>
+      <button
+        className="popup__button popup__edit-profile"
+        name="edit_profile_button"
+        type="submit"
+      >
+        Save
+      </button>
     </PopupWithForm>
   );
 }

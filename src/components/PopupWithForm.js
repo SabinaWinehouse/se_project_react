@@ -17,14 +17,6 @@ export default function PopupWithForm(props) {
           <h3 className="popup__profile">{props.title}</h3>
           <form onSubmit={props.onSubmit} name="popup_profile" className="popup__form" id={props.formId}>
             {props.children}
-
-            <button
-              className="popup__button popup__edit-profile"
-              name="edit_profile_button"
-              type="submit"
-            >
-              Save
-            </button>
           </form>
         </fieldset>
       </div>

@@ -40,7 +40,6 @@ export default function AddPlacePopup(props) {
         maxLength="30"
         required
       />
-
       <span id="card-name-input-error" className="popup__input-error"></span>
       <input
         onChange={handlePlaceLinkChange}
@@ -52,8 +51,14 @@ export default function AddPlacePopup(props) {
         placeholder="Image link"
         required
       />
-
       <span id="card-link-input-error" className="popup__input-error"></span>
+      <button
+        className="popup__button popup__edit-profile"
+        name="edit_profile_button"
+        type="submit"
+      >
+        Save
+      </button>
     </PopupWithForm>
   );
 }

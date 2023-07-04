@@ -1,19 +1,40 @@
-import { api } from "../utils/api";
+import { BASE_REGISTER_URL } from "./api";
 
-export const register = (username, password, email) => {
-  return fetch(`${api._baseUrl}/auth/local/register`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({username, password, email})
-  })
-  .then((response) => {
-    return response.json();
-  })
-  .then((res) => {
-    return res;
-  })
-  .catch((err) => console.log(err));
-};
+export const register = (email, password) => {
+	return fetch(`${BASE_REGISTER_URL}/signup`, {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ email, password })
+	})
+		.then(res => res.ok ? res.json() : Promise.reject(res))
+		.catch(e => console.error(e))
+}
+
+export const login = (email, password) => {
+	return fetch(`${BASE_REGISTER_URL}/signin`, {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ email, password })
+	})
+		.then(res => res.ok ? res.json() : Promise.reject(res))
+		.catch(e => console.error(e))
+}
+
+export const getContent = token => {
+	return fetch(`${BASE_REGISTER_URL}/users/me`, {
+		method: 'GET',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${token}`
+		},
+	})
+		.then(res => res.json())
+		.catch(e => console.error(e))
+}

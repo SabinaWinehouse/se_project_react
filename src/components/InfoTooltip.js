@@ -1,20 +1,17 @@
 import React from "react";
-export default function InfoTooltip(props) {
-  return (
-    <div class="info-popup">
-      <div class="info-popup__container">
-        <button type="button" class="info-popup__button-close"></button>
-        <figure class="info-popup__figure">
-          <img
-            class="info-popup__image"
-            src="../infoTooltip/images/X_icon.png"
-            alt="#"
-          />
-          <figcaption class="info-popup__caption">
-            Oops, something went wrong! Please try again.
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  );
+import PopupWithForm from "./PopupWithForm";
+
+export default function InfoTooltip({image, isOpen, onClose, text}) {
+	return (
+		<PopupWithForm
+			name="tooltip"
+			isOpen={isOpen}
+			onClose={onClose}
+		>
+			<div className="popup__tooltip-content">
+				<div className={`popup__icon-${image}`}/>
+				<p className="popup__tooltip-text">{text}</p>
+			</div>
+		</PopupWithForm>
+	)
 }

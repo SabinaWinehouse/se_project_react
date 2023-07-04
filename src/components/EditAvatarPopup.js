@@ -30,6 +30,13 @@ export default function EditAvatarPopup(props) {
         required
       />
       <span id="avatar-link-input-error" className="popup__input-error"></span>
+      <button
+        className="popup__button popup__edit-profile"
+        name="edit_profile_button"
+        type="submit"
+      >
+        Save
+      </button>
     </PopupWithForm>
   );
 }

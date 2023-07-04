@@ -1,82 +1,87 @@
 class Api {
-  constructor({ baseUrl, headers }) {
-    this._baseUrl = baseUrl;
-    this._headers = headers;
-  }
+	constructor({ baseUrl, headers }) {
+		this._baseUrl = baseUrl;
+		this._headers = headers;
+	}
 
-  _handleResponse(response) {
-    return response.ok ? response.json() : Promise.reject(response.status);
-  }
+	_handleResponse(response) {
+		return response.ok ? response.json() : Promise.reject(response.status);
+	}
 
-  getUserInfo() {
-    return fetch(this._baseUrl + "/users/me", {
-      method: "GET",
-      headers: this._headers,
-    }).then(this._handleResponse)
-    .catch((error) => console.error(error));
-  }
+	getUserInfo() {
+		return fetch(this._baseUrl + "/users/me", {
+			method: "GET",
+			headers: this._headers,
+		}).then(this._handleResponse)
+			.catch((error) => console.error(error));
+	}
 
-  getInitialCards() {
-    return fetch(this._baseUrl + "/cards", {
-      method: "GET",
-      headers: this._headers,
-    }).then(this._handleResponse)
-    .catch((error) => console.error(error));
-  }
+	getInitialCards() {
+		return fetch(this._baseUrl + "/cards", {
+			method: "GET",
+			headers: this._headers,
+		}).then(this._handleResponse)
+			.catch((error) => console.error(error));
+	}
 
-  editUserInfo({ name, about }) {
-    return fetch(this._baseUrl + "/users/me", {
-      method: "PATCH",
-      headers: this._headers,
+	editUserInfo({ name, about }) {
+		return fetch(this._baseUrl + "/users/me", {
+			method: "PATCH",
+			headers: this._headers,
 
-      body: JSON.stringify({
-        name,
-        about,
-      }),
-    }).then(this._handleResponse)
-    .catch((error) => console.error(error));
-  }
-  addNewCard(data) {
-    return fetch(this._baseUrl + "/cards", {
-      method: "POST",
-      headers: this._headers,
-      body: JSON.stringify(data),
-    }).then(this._handleResponse)
-    .catch((error) => console.error(error));
-  }
+			body: JSON.stringify({
+				name,
+				about,
+			}),
+		}).then(this._handleResponse)
+			.catch((error) => console.error(error));
+	}
 
-  changeLikeStatus(cardId, isLiked) {
-   
-    return fetch(this._baseUrl + "/cards/likes/" + cardId, {
-      method: isLiked ? "DELETE" : "PUT",
-      headers: this._headers,
-    }).then(this._handleResponse)
-    .catch((error) => console.error(error));
-  }
+	addNewCard(data) {
+		return fetch(this._baseUrl + "/cards", {
+			method: "POST",
+			headers: this._headers,
+			body: JSON.stringify(data),
+		}).then(this._handleResponse)
+			.catch((error) => console.error(error));
+	}
 
-  deleteCard(cardId) {
-    return fetch(this._baseUrl + "/cards/" + cardId, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then(this._handleResponse)
-    .catch((error) => console.error(error));
-  }
+	changeLikeStatus(cardId, isLiked) {
 
-  changeUserAvatar({ avatar }) {
-    return fetch(this._baseUrl + "/users/me/avatar", {
-      method: "PATCH",
-      headers: this._headers,
-      body: JSON.stringify({
-        avatar,
-      }),
-    }).then(this._handleResponse)
-    .catch((error) => console.error(error));
-  }
+		return fetch(this._baseUrl + "/cards/likes/" + cardId, {
+			method: isLiked ? "DELETE" : "PUT",
+			headers: this._headers,
+		}).then(this._handleResponse)
+			.catch((error) => console.error(error));
+	}
+
+	deleteCard(cardId) {
+		return fetch(this._baseUrl + "/cards/" + cardId, {
+			method: "DELETE",
+			headers: this._headers,
+		}).then(this._handleResponse)
+			.catch((error) => console.error(error));
+	}
+
+	changeUserAvatar({ avatar }) {
+		return fetch(this._baseUrl + "/users/me/avatar", {
+			method: "PATCH",
+			headers: this._headers,
+			body: JSON.stringify({
+				avatar,
+			}),
+		}).then(this._handleResponse)
+			.catch((error) => console.error(error));
+	}
 }
+
+const BASE_URL = "https://around.nomoreparties.co/v1/cohort-3-en";
+export const BASE_REGISTER_URL = "https://register.nomoreparties.co"
+
 export const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en",
-  headers: {
-    authorization: "46068ffb-8af0-44b6-a433-8660db192f5d",
-    "Content-Type": "application/json",
-  },
+	baseUrl: BASE_URL,
+	headers: {
+		authorization: "46068ffb-8af0-44b6-a433-8660db192f5d",
+		"Content-Type": "application/json",
+	},
 });
