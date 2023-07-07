@@ -1,17 +1,17 @@
 import React from "react";
-import PopupWithForm from "./PopupWithForm";
+import Popup from "./Popup";
 
-export default function InfoTooltip({image, isOpen, onClose, text}) {
+export default function InfoTooltip({ image, isOpen, onClose, text }) {
 	return (
-		<PopupWithForm
-			name="tooltip"
+		<Popup
 			isOpen={isOpen}
 			onClose={onClose}
+			name="tooltip"
 		>
 			<div className="popup__tooltip-content">
 				<div className={`popup__icon-${image}`}/>
 				<p className="popup__tooltip-text">{text}</p>
 			</div>
-		</PopupWithForm>
+		</Popup>
 	)
 }

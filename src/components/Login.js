@@ -16,27 +16,27 @@ export default function Login({ handleLogin }) {
 			<form name="auth__form" className="auth__form" id="authForm" onSubmit={handleSubmit}>
 				<div className="auth__inputs-wrapper">
 					<input className="auth__input"
-								 id="auth-email-input"
-								 name="email"
-								 type="email"
-								 placeholder="Email"
-								 minLength="1"
-								 maxLength="30"
-								 required
-								 onChange={e => setEmail(e.target.value)}
-								 value={email}
+					       id="auth-email-input"
+					       name="email"
+					       type="email"
+					       placeholder="Email"
+					       minLength="1"
+					       maxLength="30"
+					       required
+					       onChange={e => setEmail(e.target.value)}
+					       value={email}
 					/>
 					<span id="auth-email-input-error" className="auth__input-error"></span>
 					<input className="auth__input"
-								 id="auth-password-input"
-								 name="password"
-								 type="password"
-								 placeholder="Password"
-								 minLength="1"
-								 maxLength="30"
-								 required
-								 onChange={e => setPassword(e.target.value)}
-								 value={password}
+					       id="auth-password-input"
+					       name="password"
+					       type="password"
+					       placeholder="Password"
+					       minLength="1"
+					       maxLength="30"
+					       required
+					       onChange={e => setPassword(e.target.value)}
+					       value={password}
 					/>
 					<span id="auth-password-input-error" className="auth__input-error"></span>
 				</div>

@@ -9,7 +9,7 @@ export default function Header({ userEmail, onLogout, loggedIn }) {
 	const [isBurgerMenuOpened, setIsBurgerMenuOpened] = useState(false);
 	const [width, setWidth] = useState(window.innerWidth);
 
-	const BREAKPOINT = 476;
+	const BREAKPOINT_PX = 476;
 
 	useEffect(() => {
 		const handleResizeWindow = () => setWidth(window.innerWidth);
@@ -20,7 +20,7 @@ export default function Header({ userEmail, onLogout, loggedIn }) {
 		};
 	}, []);
 
-	const isMobileMenu = width < BREAKPOINT;
+	const isMobileMenu = width < BREAKPOINT_PX;
 
 	useEffect(() => {
 		if (!isMobileMenu) {

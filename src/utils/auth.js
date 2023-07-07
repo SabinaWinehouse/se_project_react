@@ -1,5 +1,9 @@
 import { BASE_REGISTER_URL } from "./api";
 
+function handleResponse(response) {
+	return response.ok ? response.json() : Promise.reject(response.status)
+}
+
 export const register = (email, password) => {
 	return fetch(`${BASE_REGISTER_URL}/signup`, {
 		method: 'POST',
@@ -9,8 +13,7 @@ export const register = (email, password) => {
 		},
 		body: JSON.stringify({ email, password })
 	})
-		.then(res => res.ok ? res.json() : Promise.reject(res))
-		.catch(e => console.error(e))
+		.then(handleResponse)
 }
 
 export const login = (email, password) => {
@@ -22,11 +25,10 @@ export const login = (email, password) => {
 		},
 		body: JSON.stringify({ email, password })
 	})
-		.then(res => res.ok ? res.json() : Promise.reject(res))
-		.catch(e => console.error(e))
+		.then(handleResponse)
 }
 
-export const getContent = token => {
+export const getImages = token => {
 	return fetch(`${BASE_REGISTER_URL}/users/me`, {
 		method: 'GET',
 		headers: {
@@ -35,6 +37,5 @@ export const getContent = token => {
 			'Authorization': `Bearer ${token}`
 		},
 	})
-		.then(res => res.json())
-		.catch(e => console.error(e))
+		.then(handleResponse)
 }

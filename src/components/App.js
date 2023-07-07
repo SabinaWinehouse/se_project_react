@@ -17,7 +17,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import * as auth from '../utils/auth';
 import { getToken, removeToken, setToken } from "../utils/token";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
-import { getContent } from "../utils/auth";
 
 function App() {
 	const history = useHistory();
@@ -27,17 +26,13 @@ function App() {
 		name: "",
 		link: "",
 	});
-
+	const [isLoading, setIsLoading] = useState(false);
 	const [isCardPopupOpen, setIsCardPopupOpen] = useState(false);
-
 	const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
 		useState(false);
-
 	const [isAddPlacePopupOpen, seIsAddPlacePopupOpen] = useState(false);
-
 	const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
 		useState(false);
-
 	const [infoTooltip, setInfoTooltip] =
 		useState({ image: '', isOpen: false, text: '' })
 
@@ -70,19 +65,42 @@ function App() {
 		setInfoTooltip({ image: '', isOpen: false, text: '' })
 	}
 
+	useEffect(() => {
+		const closeByEscape = e => {
+			if (e.key === 'Escape') {
+				closeAllPopups();
+			}
+		}
+		document.addEventListener('keydown', closeByEscape);
+		return () => document.removeEventListener('keydown', closeByEscape);
+	}, [])
+
+	function handleSubmit(request) {
+		setIsLoading(true);
+		request()
+			.then(closeAllPopups)
+			.catch(err => console.error(err))
+			.finally(() => setIsLoading(false));
+	}
+
 	function handleUpdateUser({ name, about }) {
-		api
-			.editUserInfo({ name, about })
-			.then(() => setCurrentUser({ ...currentUser, name, about }))
-			.catch((error) => console.error(error));
+		function makeRequest() {
+			return api.getUserInfo({ name, about })
+				.then(() => setCurrentUser({ ...currentUser, name, about }))
+		}
+
+		handleSubmit(makeRequest);
 	}
 
 	function handleUpdateAvatar({ avatar }) {
-		api
-			.changeUserAvatar({ avatar })
-			.then((res) => setCurrentUser(res))
-			.catch((error) => console.error(error));
+		function makeRequest() {
+			return api.changeUserAvatar({ avatar })
+				.then((res) => setCurrentUser(res))
+		}
+
+		handleSubmit(makeRequest);
 	}
+
 
 	function handleCardLike(card) {
 		const isLiked = card.likes.some((user) => user._id === currentUser._id);
@@ -94,30 +112,36 @@ function App() {
 				)
 			)
 		}).catch((error) => console.error(error));
-		;
 	}
 
 	function handleCardDelete(card) {
-		api.deleteCard(card._id).then(() => {
-			setCards((state) =>
-				state.filter((currentCard) => currentCard._id !== card._id)
-			)
-		}).catch((error) => console.error(error));
+		function makeRequest() {
+			return api.deleteCard(card._id).then(() => {
+				setCards((state) =>
+					state.filter((currentCard) => currentCard._id !== card._id)
+				)
+			})
+		}
+
+		handleSubmit(makeRequest);
 	}
 
 	function handleAddPlaceSubmit(newCard) {
-		api
-			.addNewCard(newCard)
-			.then((res) => {
-				setCards([res, ...cards]);
-			})
-			.catch((error) => console.error(error));
+		function makeRequest() {
+			return api.addNewCard(newCard)
+				.then((res) => {
+					setCards([res, ...cards]);
+				})
+		}
+
+		handleSubmit(makeRequest);
 	}
 
 	const handleLogin = (email, password) => {
 		auth.login(email, password)
 			.then(data => {
 				if (data.token) {
+					setUserEmail(email);
 					setToken(data.token);
 					setLoggedIn(true);
 					history.push('/')
@@ -175,16 +199,16 @@ function App() {
 
 	const checkToken = () => {
 		if (getToken()) {
-			auth.getContent(getToken())
+			auth.getImages(getToken())
 				.then(res => {
 					if (res.data) {
-						setLoggedIn(true);
 						setUserEmail(res.data.email);
+						setLoggedIn(true);
 						history.push('/');
 					} else {
 						handleLogout();
 					}
-				})
+				}).catch(err => console.error(err));
 		}
 	}
 
@@ -250,47 +274,22 @@ function App() {
 					isOpen={isEditProfilePopupOpen}
 					onClose={closeAllPopups}
 					onUpdateUser={handleUpdateUser}
+					buttonText={isLoading ? 'Saving...' : 'Save'}
 				/>
 
 				<AddPlacePopup
 					onAddPlaceSubmit={handleAddPlaceSubmit}
 					onClose={closeAllPopups}
 					isOpen={isAddPlacePopupOpen}
+					buttonText={isLoading ? 'Saving...' : 'Save'}
 				/>
 
 				<EditAvatarPopup
 					onUpdateAvatar={handleUpdateAvatar}
 					isOpen={isEditAvatarPopupOpen}
 					onClose={closeAllPopups}
+					buttonText={isLoading ? 'Saving...' : 'Save'}
 				/>
-
-				<div className="popup" id="popup__delete-card">
-					<div className="popup__container">
-						<button
-							type="button"
-							className="popup__close"
-							id="deleteCardPopupCloseButton"
-						></button>
-
-						<fieldset className="popup__fieldset">
-							<h3 className="popup__place">Are you sure?</h3>
-							<form
-								name="popup_place"
-								className="popup__form"
-								id="deleteCardForm"
-							>
-								<button
-									className="popup__button popup__create-card"
-									name="create_a_card_button"
-									type="submit"
-								>
-									Yes
-								</button>
-							</form>
-						</fieldset>
-					</div>
-				</div>
-
 				<ImagePopup
 					card={selectedCard}
 					onClose={closeAllPopups}
@@ -308,11 +307,3 @@ function App() {
 }
 
 export default App;
-
-//1.auth.js написать fetch for URL /signup, /signin (доп инфа в #3,#4)
-//2.Сверстать (тупо сверстать) Login, Register, InfoTooltip(разный контентб использование пропсов) 
-//3.Получить данные из инпутов форм и записать их в state ()
-//4.Написать ProtectedRoute (тренажер)
-//5.Отображение верстки, сверить стили (link)
-//6.Правильный роутинг 
-//7. Submit form (fetch from #1, )

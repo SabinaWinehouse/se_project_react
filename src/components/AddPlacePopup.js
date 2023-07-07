@@ -1,22 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
-export default function AddPlacePopup(props) {
-  const [placeName, setPlaceName] = React.useState("");
-  const [placeLink, setPlaceLink] = React.useState("");
+import { useForm } from "../utils/hooks/useForm";
 
-  function handlePlaceNameChange(e) {
-    setPlaceName(e.target.value);
-  }
-  function handlePlaceLinkChange(e) {
-    setPlaceLink(e.target.value);
-  }
+export default function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit, buttonText }) {
+  const { values, handleChange } = useForm({})
+
+  useEffect(() => {
+    values.name = '';
+    values.link = '';
+  }, [isOpen])
+
   function handleSubmit(e) {
     e.preventDefault();
-    props.onAddPlaceSubmit({
-      name: placeName,
-      link: placeLink,
+    onAddPlaceSubmit({
+      name: values.name,
+      link: values.link,
     });
-    props.onClose();
   }
 
   return (
@@ -24,13 +23,14 @@ export default function AddPlacePopup(props) {
       onSubmit={handleSubmit}
       name="section-add"
       title="New Place"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       formId="createCardForm"
+      buttonText={buttonText}
     >
       <input
-        onChange={handlePlaceNameChange}
-        value={placeName}
+        onChange={handleChange}
+        value={values.name || ''}
         className="popup__input popup__form-title"
         id="card-name-input"
         name="name"
@@ -42,8 +42,8 @@ export default function AddPlacePopup(props) {
       />
       <span id="card-name-input-error" className="popup__input-error"></span>
       <input
-        onChange={handlePlaceLinkChange}
-        value={placeLink}
+        onChange={handleChange}
+        value={values.link || ''}
         className="popup__input popup__form-link"
         id="card-link-input"
         name="link"
@@ -52,13 +52,6 @@ export default function AddPlacePopup(props) {
         required
       />
       <span id="card-link-input-error" className="popup__input-error"></span>
-      <button
-        className="popup__button popup__edit-profile"
-        name="edit_profile_button"
-        type="submit"
-      >
-        Save
-      </button>
     </PopupWithForm>
   );
 }

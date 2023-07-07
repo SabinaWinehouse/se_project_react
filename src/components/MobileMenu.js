@@ -13,9 +13,9 @@ export const MobileMenu = ({ userEmail, isOpen, onLogout, handleBurgerClick, han
 					<button className="mobile-menu__logout-button" onClick={onLogout} type="button">Log out</button>
 				</div>
 				<div className="mobile-menu__header">
-				<Link to="/" className="header__home-link">
-					<img src={Logo} className="header__logo" alt="logo"/>
-				</Link>
+					<Link to="/" className="header__home-link">
+						<img src={Logo} className="header__logo" alt="logo"/>
+					</Link>
 					<img src={CloseIcon} alt="Close icon" onClick={handleCloseClick}/>
 				</div>
 			</div>

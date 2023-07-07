@@ -1,42 +1,36 @@
-import React from "react";
+import React, { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
+export default function EditAvatarPopup({ isOpen, onUpdateAvatar, onClose, buttonText }) {
+	const inputAvatarRef = useRef();
 
-export default function EditAvatarPopup(props) {
-  const inputAvatarRef = React.useRef();
-  function handleSubmit(e) {
-    e.preventDefault();
-    props.onUpdateAvatar({
-      avatar: inputAvatarRef.current.value,
-    });
-    props.onClose();
-  }
-  return (
-    <PopupWithForm
-      onSubmit={handleSubmit}
-      name="edit-avatar"
-      title="Edit Avatar"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
-      formId="editProfileForm"
-    >
-      <input
-        ref={inputAvatarRef}
-        className="popup__input popup__form-name"
-        id="avatar-link-input"
-        name="avatar"
-        type="text"
-        placeholder="Link"
-        required
-      />
-      <span id="avatar-link-input-error" className="popup__input-error"></span>
-      <button
-        className="popup__button popup__edit-profile"
-        name="edit_profile_button"
-        type="submit"
-      >
-        Save
-      </button>
-    </PopupWithForm>
-  );
+	function handleSubmit(e) {
+		e.preventDefault();
+		onUpdateAvatar({
+			avatar: inputAvatarRef.current.value,
+		});
+	}
+
+	return (
+		<PopupWithForm
+			onSubmit={handleSubmit}
+			name="edit-avatar"
+			title="Edit Avatar"
+			isOpen={isOpen}
+			onClose={onClose}
+			formId="editAvatarForm"
+			buttonText={buttonText}
+		>
+			<input
+				ref={inputAvatarRef}
+				className="popup__input popup__form-name"
+				id="avatar-link-input"
+				name="avatar"
+				type="text"
+				placeholder="Link"
+				required
+			/>
+			<span id="avatar-link-input-error" className="popup__input-error"></span>
+		</PopupWithForm>
+	);
 }
