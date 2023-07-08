@@ -65,16 +65,6 @@ function App() {
 		setInfoTooltip({ image: '', isOpen: false, text: '' })
 	}
 
-	useEffect(() => {
-		const closeByEscape = e => {
-			if (e.key === 'Escape') {
-				closeAllPopups();
-			}
-		}
-		document.addEventListener('keydown', closeByEscape);
-		return () => document.removeEventListener('keydown', closeByEscape);
-	}, [])
-
 	function handleSubmit(request) {
 		setIsLoading(true);
 		request()
@@ -85,7 +75,7 @@ function App() {
 
 	function handleUpdateUser({ name, about }) {
 		function makeRequest() {
-			return api.getUserInfo({ name, about })
+			return api.editUserInfo({ name, about })
 				.then(() => setCurrentUser({ ...currentUser, name, about }))
 		}
 
@@ -227,9 +217,7 @@ function App() {
 		if (loggedIn) {
 			api
 				.getUserInfo()
-				.then((res) => {
-					setCurrentUser(res);
-				})
+				.then((res) => setCurrentUser(res))
 				.catch((error) => console.error(error));
 		}
 	}, [loggedIn]);

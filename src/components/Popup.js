@@ -26,7 +26,7 @@ function Popup({ isOpen, name, onClose, children }) {
 			onClick={handleOverlay}
 			id={`popup__${name}`}
 		>
-			<div className='popup__container'>
+			<div className={`popup__${name === 'image' ? 'image-' : ''}container`}>
 				{children}
 				<button
 					className='popup__close'
